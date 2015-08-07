@@ -12,4 +12,14 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
+//= require angular
+//= require angular-rails-templates
+
+//= require contacts-ng-app/app
+// require_tree ./contacts-ng-app/templates
+//= require_tree ./contacts-ng-app/modules
+// require_tree ./contacts-ng-app/filters
+// require_tree ./contacts-ng-app/directives
+// require_tree ./contacts-ng-app/models
+// require_tree ./contacts-ng-app/services
+//= require_tree ./contacts-ng-app/controllers
