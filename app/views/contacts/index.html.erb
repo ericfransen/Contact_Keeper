@@ -1,6 +1,28 @@
 <h1>Contacts</h1>
 
 <div ng-app='app.contactsApp' ng-controller='ContactsCtrl'>
-  <p>ContactsCtrl says:</p>
-  <p>{{ exampleValue }}</p>
+
+  <form ng-submit="addContact()">
+    <input type="text" placeholder="First Name" ng-model="newContact.firstName">
+    <input type="text" placeholder="Last Name" ng-model="newContact.lastName">
+    <input type="text" placeholder="Address" ng-model="newContact.address">
+    <input type="text" placeholder="City" ng-model="newContact.city">
+    <input type="text" placeholder="State" ng-model="newContact.state">
+    <input type="text" placeholder="Country" ng-model="newContact.country">
+    <input type="text" placeholder="Zip" ng-model="newContact.zip">
+    <input type="text" placeholder="Phone" ng-model="newContact.phone">
+    <input type="text" placeholder="Email" ng-model="newContact.email">
+    <input type="submit" value="Add Contact">
+  </form>
+
+  <hr>
+
+  <ul>
+    <li ng-repeat="contact in contacts">
+      {{ contact.firstName }}
+      {{ contact.lastName }}
+      {{ contact.zip }}
+    </li>
+  </ul>
+
 </div>

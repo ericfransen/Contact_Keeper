@@ -3,6 +3,26 @@ angular.module('app.contactsApp').controller("ContactsCtrl", [
   ($scope)->
     console.log 'ContactsCtrl running'
 
-    $scope.exampleValue = "Line checka one two one two"
+    $scope.contacts = [
+      {
+        firstName: 'Eric'
+        lastName:  'Fransen'
+        address: '123 Street'
+        city: 'Denver'
+        state: 'CO'
+        country: 'USA'
+        zip: 80211
+        phone: '555-555-5555'
+        email: 'eric@me.com'
+      }
+      {
+        firstName: 'Batman'
+      }
+    ]
+
+    $scope.addContact = ->
+      $scope.contacts.push($scope.newContact)
+      $scope.newContact = {}
+
 
 ])
