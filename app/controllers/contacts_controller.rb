@@ -1,6 +1,8 @@
 class ContactsController < ApplicationController
   respond_to :html, :json
 
+  protect_from_forgery with: :null_session, only: Proc.new { |c| c.request.format.json? }
+
   before_action :find_contact, only: [:show, :update, :destroy]
 
   def index

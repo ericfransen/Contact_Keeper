@@ -7,13 +7,19 @@ angular.module('app.contactsApp').controller("ContactsCtrl", [
 
     $scope.contacts = []
 
-    #$scope.contacts = $http({ method: 'GET', url: '/contacts.json' })
     $http({ method: 'GET', url: '/contacts.json' }).success (data) ->
       $scope.contacts = data
 
     $scope.addContact = ->
-      $scope.contacts.push($scope.newContact)
-      $scope.newContact = {}
+      #$scope.contacts.push($scope.newContact)
+      #$scope.newContact = {}
+      console.log $scope.newContact
+
+      data = $scope.newContact
+
+      $http.post('contacts', data).then ->
+        alert 'hi'
+
 
 
 ])
