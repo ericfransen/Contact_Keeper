@@ -4,7 +4,8 @@ class ContactsController < ApplicationController
   before_action :find_contact, only: [:show, :update, :destroy]
 
   def index
-    respond_with Contact.all
+    @contacts = Contact.all
+    respond_with @contacts
   end
 
   def show
