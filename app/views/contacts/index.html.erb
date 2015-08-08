@@ -7,7 +7,7 @@
     <input type="text" placeholder="Last Name" ng-model="newContact.lastName">
     <input type="text" placeholder="Address" ng-model="newContact.address">
     <input type="text" placeholder="City" ng-model="newContact.city">
-    <input type="text" placeholder="State" ng-model="newContact.state">
+    <input type="text" placeholder="State" ng-model="newContact.stateOrProvince">
     <input type="text" placeholder="Country" ng-model="newContact.country">
     <input type="text" placeholder="Zip" ng-model="newContact.zip">
     <input type="text" placeholder="Phone" ng-model="newContact.phone">
@@ -21,7 +21,13 @@
     <li ng-repeat="contact in contacts">
       {{ contact.firstName }}
       {{ contact.lastName }}
+      {{ contact.address }}
+      {{ contact.city }}
+      {{ contact.stateOrProvince }}
+      {{ contact.country }}
       {{ contact.zip }}
+      {{ contact.phone }}
+      {{ contact.email }}
     </li>
   </ul>
 

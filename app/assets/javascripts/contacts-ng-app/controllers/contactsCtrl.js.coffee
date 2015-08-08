@@ -1,5 +1,6 @@
 angular.module('app.contactsApp').controller("ContactsCtrl", [
   '$scope',
+
   ($scope)->
     console.log 'ContactsCtrl running'
 
@@ -9,7 +10,7 @@ angular.module('app.contactsApp').controller("ContactsCtrl", [
         lastName:  'Fransen'
         address: '123 Street'
         city: 'Denver'
-        state: 'CO'
+        stateOrProvince: 'CO'
         country: 'USA'
         zip: 80211
         phone: '555-555-5555'
