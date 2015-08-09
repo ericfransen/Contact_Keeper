@@ -3,11 +3,11 @@
 <div ng-app='app.contactsApp' ng-controller='ContactsCtrl'>
 
   <form ng-submit="addContact()">
-    <input type="text" placeholder="First Name" ng-model="newContact.firstName">
-    <input type="text" placeholder="Last Name" ng-model="newContact.lastName">
+    <input type="text" placeholder="First Name" ng-model="newContact.first_name">
+    <input type="text" placeholder="Last Name" ng-model="newContact.last_name">
     <input type="text" placeholder="Address" ng-model="newContact.address">
     <input type="text" placeholder="City" ng-model="newContact.city">
-    <input type="text" placeholder="State" ng-model="newContact.state">
+    <input type="text" placeholder="State" ng-model="newContact.state_province">
     <input type="text" placeholder="Country" ng-model="newContact.country">
     <input type="text" placeholder="Zip" ng-model="newContact.zip">
     <input type="text" placeholder="Phone" ng-model="newContact.phone">
@@ -19,9 +19,17 @@
 
   <ul>
     <li ng-repeat="contact in contacts">
-      {{ contact.firstName }}
-      {{ contact.lastName }}
+      {{ contact.first_name }}
+      {{ contact.last_name }}
+      {{ contact.address }}
+      {{ contact.city }}
+      {{ contact.state_province }}
+      {{ contact.country }}
       {{ contact.zip }}
+      {{ contact.phone }}
+      {{ contact.email }}
+      <!-- <button ng-click="updateContact(contact)">Update</button> -->
+      <button ng-click="removeContact(contact)">Delete</button>
     </li>
   </ul>
 
