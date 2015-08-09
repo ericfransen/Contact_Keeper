@@ -2,16 +2,24 @@
 
 <div ng-app='app.contactsApp' ng-controller='ContactsCtrl'>
 
-  <form ng-submit="addContact()">
-    <input type="text" placeholder="First Name" ng-model="newContact.first_name">
-    <input type="text" placeholder="Last Name" ng-model="newContact.last_name">
+  <form name="contactsForm" ng-submit="contactsForm.$valid && addContact()" novalidate>
+    <input type="text" placeholder="First Name" ng-model="newContact.first_name" ng-minlength="3" ng-minlength="35" required>
+    <input type="text" placeholder="Last Name" ng-model="newContact.last_name" ng-minlength="3" ng-minlength="35" required>
     <input type="text" placeholder="Address" ng-model="newContact.address">
     <input type="text" placeholder="City" ng-model="newContact.city">
     <input type="text" placeholder="State" ng-model="newContact.state_province">
-    <input type="text" placeholder="Country" ng-model="newContact.country">
-    <input type="text" placeholder="Zip" ng-model="newContact.zip">
-    <input type="text" placeholder="Phone" ng-model="newContact.phone">
-    <input type="text" placeholder="Email" ng-model="newContact.email">
+    <select ng-model="newContact.country">
+      <option value="" disabled selected>Country</option>
+      <option value='USA'>USA</option>
+      <option value='Canada'>Canada</option>
+      <option value='Mexico'>Mexico</option>
+    </select>
+    <input type="text" ng-pattern="/^(\d{5}-\d{4}|\d{5})$/" placeholder="Zip" ng-model="newContact.zip">
+    <input type="text" ng-pattern="/^\d{10}$/" placeholder="Phone" ng-model="newContact.phone" required>
+    <input type="email" placeholder="Email" ng-model="newContact.email" required>
+
+    <div>FORM IS {{ contactsForm.$valid }}</div>
+
     <input type="submit" value="Add Contact">
   </form>
 
