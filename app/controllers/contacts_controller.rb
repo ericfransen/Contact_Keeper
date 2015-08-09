@@ -15,7 +15,8 @@ class ContactsController < ApplicationController
   end
 
   def create
-    respond_with @contact = Contact.create(contact_params)
+    @contact = Contact.create(contact_params)
+    respond_with @contact
   end
 
   def update
@@ -31,19 +32,20 @@ class ContactsController < ApplicationController
   private
 
   def find_contact
-    Contact.find(params[:id])
+    @contact = Contact.find(params[:id])
   end
 
   def contact_params
-    params.require(:contact).permit(:first_name,
-                                    :last_name,
-                                    :address,
-                                    :city,
-                                    :state,
-                                    :country,
-                                    :zip,
-                                    :phone,
-                                    :email
-                                   )
+    params.require(:contact)
+      .permit(:first_name,
+              :last_name,
+              :address,
+              :city,
+              :state_province,
+              :country,
+              :zip,
+              :phone,
+              :email
+             )
   end
 end

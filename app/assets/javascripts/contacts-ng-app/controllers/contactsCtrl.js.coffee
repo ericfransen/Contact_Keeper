@@ -1,25 +1,35 @@
-angular.module('app.contactsApp').controller("ContactsCtrl", [
+angular.module('ContactResource', ['ngResource']).factory('Contact', [
+  '$resource',
+
+  ($resource) ->
+    $resource("/contacts/:id", { id: "@id" }, 
+      {
+        'index':   {method: 'GET',  isArray: true}
+        'save':    {method: 'POST', isArray: false }
+        'update':  {method: 'PUT' }
+        #'show':    {method: 'GET', isArray: false }
+        'destroy': {method: 'DELETE',  isArray: false }
+      }
+    )
+])
+
+angular.module('app.contactsApp', ['ContactResource']).controller("ContactsCtrl", [
   '$scope',
-  '$http',
+  'Contact',
 
-  ($scope, $http)->
-    console.log 'ContactsCtrl running'
-
+  ($scope, Contact) ->
     $scope.contacts = []
-
-    $http({ method: 'GET', url: '/contacts.json' }).success (data) ->
-      $scope.contacts = data
+    $scope.contacts = Contact.index()
 
     $scope.addContact = ->
-      #$scope.contacts.push($scope.newContact)
-      #$scope.newContact = {}
-      console.log $scope.newContact
+      contact = Contact.save($scope.newContact)
+      $scope.contacts.push(contact)
+      $scope.newContact = {}
 
-      data = $scope.newContact
-
-      $http.post('contacts', data).then ->
-        alert 'hi'
-
-
+    $scope.removeContact = (contact) ->
+      cIndex = $scope.contacts.indexOf(contact)
+      if cIndex > -1
+        $scope.contacts.splice(cIndex, 1)
+      contact = Contact.destroy(contact)
 
 ])
