@@ -46,26 +46,8 @@
       </ul>
 
 
-      <form name="contactsForm" ng-submit="contactsForm.$valid && addContact()" novalidate>
-        <input type="text" placeholder="First Name" ng-model="newContact.first_name" ng-minlength="3" ng-minlength="35" required>
-        <input type="text" placeholder="Last Name" ng-model="newContact.last_name" ng-minlength="3" ng-minlength="35" required>
-        <input type="text" placeholder="Address" ng-model="newContact.address">
-        <input type="text" placeholder="City" ng-model="newContact.city">
+      <%= render partial: 'new_contact_form' %>
 
-        <select ng-model="newContact.state_province" ng-options="option for option in stePrvOpts">
-          <option value="" disabled selected>State/Province</option>
-        </select>
-
-        <select ng-model="newContact.country" ng-options="option for option in countryOpts" ng-change="getStePrvOpts()">
-          <option value="" disabled selected>Country</option>
-        </select>
-
-        <input type="text" ng-pattern="/^(\d{5}-\d{4}|\d{5})$/" placeholder="Zip" ng-model="newContact.zip">
-        <input type="text" ng-pattern="/^\d{10}$/" placeholder="Phone" ng-model="newContact.phone" required>
-        <input type="email" placeholder="Email" ng-model="newContact.email" required>
-
-        <input type="submit" ng-disabled="contactsForm.$invalid" value="Add Contact">
-      </form>
 
     </md-content>
   </div>
