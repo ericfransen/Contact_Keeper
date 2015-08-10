@@ -1,55 +1,112 @@
 <div ng-app="app.contactsApp" ng-controller="ContactsCtrl">
-  <md-toolbar layout="row">
-    <md-button ng-click="ContactsCtrl.toggleList()">
-      <md-icon md-svg-src="assets/svg/menu.svg" hide-gt-sm></md-icon>
-    </md-button>
-    <h1>Contacts</h1>
-  </md-toolbar>
+  <div ng-app="app.contactsApp" ng-controller="uiCtrl">
 
-  <div layout="row" flex>
-    <md-sidenav md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" layout="column" class="md-whiteframe-z2">
-      <md-list>
+    <div layout="column" class="relative" layout-fill role="main">
 
-        </md-item ng-repeat="contact in contacts">
-          <md-button ng-click="">
-          <md-icon md-svg-icon="https://cdn1.iconfinder.com/data/icons/user-pictures/100/supportmale-512.png" 
-            class="avatar" aria-label="avatar " ng-click="selectContact()"></md-icon>
-            {{ contact.first_name }}
-            {{ contact.last_name }}
-          </md-button>
-        </md-item>
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <h3>
+            ContactKeeper
+          </h3>
+          <span flex></span>
+        </div>
 
-      </md-list>
-    </md-sidenav>
+        <md-tabs md-stretch-tabs class="md-primary" md-selected="data.selectedIndex">
+          <md-tab id="tab1" aria-controls="tab1-content">
+            Latest
+          </md-tab>
 
-    <md-content id="content" flex>
+          <md-tab id="tab2" aria-controls="tab2-content">
+            Alphabetical
+          </md-tab>
+        </md-tabs>
 
+      </md-toolbar>
 
-      <md-icon md-svg-icon="https://cdn1.iconfinder.com/data/icons/user-pictures/100/supportmale-512.png" class="avatar" aria-label="avatar "></md-icon>
+      <md-content flex md-scroll-y>
+        <ui-view layout="column" layout-fill layout-padding>
+          <div class="inset" hide-sm></div>
+            <ng-switch on="data.selectedIndex" class="tabpanel-container">
 
-      <!-- {{vm.selected.name}} -->
+              <div role="tabpanel"
+                   id="tab1-content"
+                   aria-labelledby="tab1"
+                   ng-switch-when="0"
+                   md-swipe-left="next()"
+                   md-swipe-right="previous()"
+                   layout="row" layout-align="center center">
+                  <md-card flex-gt-sm="90" flex-gt-md="80">
+                    <md-card-content>
+                    <h2>Ordered by when you met</h2>
+                      <md-list>
+                        <md-item ng-repeat="contact in contacts | filter:search | orderBy: 'created_at':true">
+                          <md-item-content layout="row">
+                            <div class="md-tile-left inset" hide-sm>
+                                <user-avatar></user-avatar>
+                            </div>
+                            <div class="md-tile-content">
+                              <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
+                              <p>
+                                {{ contact.phone }}
+                              </p>
+                            </div>
+                          </md-item-content>
+                          <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
+                          <md-divider hide-gt-sm ng-if="!$last"></md-divider>
+                        </md-item>
+                        <md-divider></md-divider>
+                        <md-item layout class="inset">
+                            <md-button layout layout-align="start center" flex class="md-primary">
+                              More
+                            </md-button>
+                        </md-item>
+                      </md-list>
+                    </md-card-content>
+                  </md-card>
+              </div>
 
-      <h2>{{ contact.first_name }} {{ contact.last_name }}</h2>
+              <div role="tabpanel"
+                   id="tab2-content"
+                   aria-labelledby="tab2"
+                   ng-switch-when="1"
+                   md-swipe-left="next()"
+                   md-swipe-right="previous()"
+                   layout="row" layout-align="center center">
+                  <md-card flex-gt-sm="90" flex-gt-md="80">
+                    <md-card-content>
+                      <h2>Ordered by first name</h2>
+                      <md-list>
+                        <md-item ng-repeat="contact in contacts | filter:search | orderBy:'first_name'">
+                          <md-item-content layout="row">
+                            <div class="md-tile-left inset" hide-sm>
+                                <user-avatar></user-avatar>
+                            </div>
+                            <div class="md-tile-content">
+                              <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
+                              <p>
+                                {{ contact.phone }}
+                              </p>
+                            </div>
+                          </md-item-content>
+                          <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
+                          <md-divider hide-gt-sm ng-if="!$last"></md-divider>
+                        </md-item>
+                        <md-divider></md-divider>
+                        <md-item layout class="inset">
+                            <md-button layout layout-align="start center" flex class="md-primary">
+                              More
+                            </md-button>
+                        </md-item>
+                      </md-list>
+                    </md-card-content>
+                  </md-card>
+              </div>
 
-      <ul>
-        <li ng-repeat="contact in contacts">
-          {{ contact.address }}
-          {{ contact.city }}
-          {{ contact.state_province }}
-          {{ contact.country }}
-          {{ contact.zip }}
-          {{ contact.phone }}
-          {{ contact.email }}
-          <!-- <button ng-click="updateContact(contact)">Update</button> -->
-          <button ng-click="removeContact(contact)">Delete</button>
-        </li>
-      </ul>
+          </ng-switch>
 
+        </ui-view>
+      </md-content>
+    </div>
 
-      <%= render partial: 'new_contact_form' %>
-
-
-    </md-content>
   </div>
-
 </div>

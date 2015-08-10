@@ -1,6 +1,5 @@
 @app = angular.module('app', [
-  'templates',
-  'ngMaterial'
+  'templates'
 ])
 
 # for compatibility with Rails CSRF protection
