@@ -1,19 +1,4 @@
-angular.module('ContactResource', ['ngResource']).factory('Contact', [
-  '$resource',
-
-  ($resource) ->
-    $resource("/contacts/:id", { id: "@id" }, 
-      {
-        'index':   {method: 'GET',  isArray: true}
-        'save':    {method: 'POST', isArray: false }
-        'update':  {method: 'PUT' }
-        #'show':    {method: 'GET', isArray: false }
-        'destroy': {method: 'DELETE',  isArray: false }
-      }
-    )
-])
-
-angular.module('app.contactsApp', ['ContactResource']).controller("ContactsCtrl", [
+angular.module('app.contactsApp').controller("ContactsCtrl", [
   '$scope',
   'Contact',
 
@@ -141,7 +126,7 @@ angular.module('app.contactsApp', ['ContactResource']).controller("ContactsCtrl"
 
     $scope.countryOpts = countryList
     $scope.stePrvOpts  = stateProvList[0]
-    $scope.getStePrvOpts = () ->
+    $scope.getStePrvOpts = ->
       key = $scope.countryOpts.indexOf($scope.newContact.country)
       newOptions = stateProvList[key]
       $scope.stePrvOpts = newOptions
