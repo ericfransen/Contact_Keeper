@@ -1,5 +1,6 @@
 @app = angular.module('app', [
-  'templates'
+  'templates',
+  'ngMaterial'
 ])
 
 # for compatibility with Rails CSRF protection
@@ -12,3 +13,6 @@
 @app.run(->
   console.log 'angular app running'
 )
+
+
+

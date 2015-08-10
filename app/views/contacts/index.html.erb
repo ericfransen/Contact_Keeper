@@ -1,44 +1,73 @@
-<h1>Contacts</h1>
+<div ng-app="app.contactsApp" ng-controller="ContactsCtrl">
+  <md-toolbar layout="row">
+    <md-button ng-click="ContactsCtrl.toggleList()">
+      <md-icon md-svg-src="assets/svg/menu.svg" hide-gt-sm></md-icon>
+    </md-button>
+    <h1>Contacts</h1>
+  </md-toolbar>
 
-<div ng-app='app.contactsApp' ng-controller='ContactsCtrl'>
+  <div layout="row" flex>
+    <md-sidenav md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" layout="column" class="md-whiteframe-z2">
+      <md-list>
 
-  <form name="contactsForm" ng-submit="contactsForm.$valid && addContact()" novalidate>
-    <input type="text" placeholder="First Name" ng-model="newContact.first_name" ng-minlength="3" ng-minlength="35" required>
-    <input type="text" placeholder="Last Name" ng-model="newContact.last_name" ng-minlength="3" ng-minlength="35" required>
-    <input type="text" placeholder="Address" ng-model="newContact.address">
-    <input type="text" placeholder="City" ng-model="newContact.city">
+        </md-item ng-repeat="contact in contacts">
+          <md-button ng-click="">
+          <md-icon md-svg-icon="https://cdn1.iconfinder.com/data/icons/user-pictures/100/supportmale-512.png" 
+            class="avatar" aria-label="avatar " ng-click="selectContact()"></md-icon>
+            {{ contact.first_name }}
+            {{ contact.last_name }}
+          </md-button>
+        </md-item>
 
-    <select ng-model="newContact.state_province" ng-options="option for option in stePrvOpts">
-      <option value="" disabled selected>State/Province</option>
-    </select>
+      </md-list>
+    </md-sidenav>
 
-    <select ng-model="newContact.country" ng-options="option for option in countryOpts" ng-change="getStePrvOpts()">
-      <option value="" disabled selected>Country</option>
-    </select>
+    <md-content id="content" flex>
 
-    <input type="text" ng-pattern="/^(\d{5}-\d{4}|\d{5})$/" placeholder="Zip" ng-model="newContact.zip">
-    <input type="text" ng-pattern="/^\d{10}$/" placeholder="Phone" ng-model="newContact.phone" required>
-    <input type="email" placeholder="Email" ng-model="newContact.email" required>
 
-    <input type="submit" ng-disabled="contactsForm.$invalid" value="Add Contact">
-  </form>
+      <md-icon md-svg-icon="https://cdn1.iconfinder.com/data/icons/user-pictures/100/supportmale-512.png" class="avatar" aria-label="avatar "></md-icon>
 
-  <hr>
+      <!-- {{vm.selected.name}} -->
 
-  <ul>
-    <li ng-repeat="contact in contacts">
-      {{ contact.first_name }}
-      {{ contact.last_name }}
-      {{ contact.address }}
-      {{ contact.city }}
-      {{ contact.state_province }}
-      {{ contact.country }}
-      {{ contact.zip }}
-      {{ contact.phone }}
-      {{ contact.email }}
-      <!-- <button ng-click="updateContact(contact)">Update</button> -->
-      <button ng-click="removeContact(contact)">Delete</button>
-    </li>
-  </ul>
+      <h2>{{ contact.first_name }} {{ contact.last_name }}</h2>
+
+      <ul>
+        <li ng-repeat="contact in contacts">
+          {{ contact.address }}
+          {{ contact.city }}
+          {{ contact.state_province }}
+          {{ contact.country }}
+          {{ contact.zip }}
+          {{ contact.phone }}
+          {{ contact.email }}
+          <!-- <button ng-click="updateContact(contact)">Update</button> -->
+          <button ng-click="removeContact(contact)">Delete</button>
+        </li>
+      </ul>
+
+
+      <form name="contactsForm" ng-submit="contactsForm.$valid && addContact()" novalidate>
+        <input type="text" placeholder="First Name" ng-model="newContact.first_name" ng-minlength="3" ng-minlength="35" required>
+        <input type="text" placeholder="Last Name" ng-model="newContact.last_name" ng-minlength="3" ng-minlength="35" required>
+        <input type="text" placeholder="Address" ng-model="newContact.address">
+        <input type="text" placeholder="City" ng-model="newContact.city">
+
+        <select ng-model="newContact.state_province" ng-options="option for option in stePrvOpts">
+          <option value="" disabled selected>State/Province</option>
+        </select>
+
+        <select ng-model="newContact.country" ng-options="option for option in countryOpts" ng-change="getStePrvOpts()">
+          <option value="" disabled selected>Country</option>
+        </select>
+
+        <input type="text" ng-pattern="/^(\d{5}-\d{4}|\d{5})$/" placeholder="Zip" ng-model="newContact.zip">
+        <input type="text" ng-pattern="/^\d{10}$/" placeholder="Phone" ng-model="newContact.phone" required>
+        <input type="email" placeholder="Email" ng-model="newContact.email" required>
+
+        <input type="submit" ng-disabled="contactsForm.$invalid" value="Add Contact">
+      </form>
+
+    </md-content>
+  </div>
 
 </div>
