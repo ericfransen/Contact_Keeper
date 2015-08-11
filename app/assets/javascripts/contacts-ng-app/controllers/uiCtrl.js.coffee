@@ -163,13 +163,13 @@ app = angular.module('app.contactsApp')
                               <div layout layout-sm="column"> 
                               
                                 <md-select ng-model="newContact.state_province" 
-                                  ng-options="option for option in stePrvOpts" flex>
+                                  oi-options="option for option in stePrvOpts" aria-label="State or Province" flex>
                                   <option value="" disabled selected>State/Province</option>
                                 </md-select>
 
                                 <md-select ng-model="newContact.country" 
-                                  ng-options="option for option in countryOpts" 
-                                  ng-change="getStePrvOpts()" flex>
+                                  oi-options="option for option in countryOpts" 
+                                  ng-change="getStePrvOpts()" aria-label="Country" flex>
                                   <option value="" disabled selected>Country</option>
                                 </md-select>
                               
