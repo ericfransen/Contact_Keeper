@@ -128,6 +128,9 @@
                     <h2>Ordered by when you met</h2>
                       <md-list>
                         <md-item ng-repeat="contact in contacts | filter:search | orderBy: 'created_at':true">
+
+                        <md-button ng-click="isFullContactOpen = !isFullContactOpen">
+                        
                           <md-item-content layout="row">
                             <div class="md-tile-left inset" hide-sm>
                                 <user-avatar></user-avatar>
@@ -138,7 +141,27 @@
                                 {{ contact.phone }}
                               </p>
                             </div>
+
+                            <div ng-show="isFullContactOpen" id="full-contact">
+                              <div class="md-tile-content">
+                                <p>
+                                  {{ contact.address }} {{ contact.city }}, {{ contact.state_province }}
+                                </p>
+                                <p>
+                                  {{ contact.zip }} {{ contact.country }}
+                                </p>
+                                <p>
+                                  <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+                                </p>
+                              </div>
+                            </div>
+                            
                           </md-item-content>
+
+                        
+                        </md-button>
+                        
+
                           <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
                           <md-divider hide-gt-sm ng-if="!$last"></md-divider>
                         </md-item>

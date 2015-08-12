@@ -152,4 +152,3 @@ DialogController = ($scope, $mdDialog, Contact) ->
     newOptions = stateProvList[key]
     $scope.stePrvOpts = newOptions
 
-  debugger
