@@ -4,205 +4,20 @@ app = angular.module('app.contactsApp')
     '$mdDialog'
     'Contact'
 
-    ($scope, $mdDialog) ->
-      countryList = ['USA', 'Canada', 'Mexico']
-      stateProvList = [
-        [
-          'Alabama'
-          'Alaska'
-          'Arizona'
-          'Arkansas'
-          'California'
-          'Colorado'
-          'Connecticut'
-          'Delaware'
-          'District Of Columbia'
-          'Florida'
-          'Georgia'
-          'Hawaii'
-          'Idaho'
-          'Illinois'
-          'Indiana'
-          'Iowa'
-          'Kansas'
-          'Kentucky'
-          'Louisiana'
-          'Maine'
-          'Maryland'
-          'Massachusetts'
-          'Michigan'
-          'Minnesota'
-          'Mississippi'
-          'Missouri'
-          'Montana'
-          'Nebraska'
-          'Nevada'
-          'New Hampshire'
-          'New Jersey'
-          'New Mexico'
-          'New York'
-          'North Carolina'
-          'North Dakota'
-          'Ohio'
-          'Oklahoma'
-          'Oregon'
-          'Pennsylvania'
-          'Rhode Island'
-          'South Carolina'
-          'South Dakota'
-          'Tennessee'
-          'Texas'
-          'Utah'
-          'Vermont'
-          'Virginia'
-          'Washington'
-          'West Virginia'
-          'Wisconsin'
-          'Wyoming'
-        ]
-        [ 
-          'Alberta'
-          'British Columbia'
-          'Manitoba'
-          'New Brunswick'
-          'Newfoundland'
-          'Northwest Territories'
-          'Nova Scotia'
-          'Nunavut'
-          'Ontario'
-          'Prince Edward Island'
-          'Quebec'
-          'Saskatchewan'
-          'Yukoncan'
-        ]
-        [ 
-          'Aguascalientes'
-          'Baja California'
-          'Baja California Sur'
-          'Campeche'
-          'Chiapas'
-          'Chihuahua'
-          'Coahuila'
-          'Colima'
-          'Distrito Federal'
-          'Durango'
-          'Guanajuato'
-          'Guerrero'
-          'Hidalgo'
-          'Jalisco'
-          'Michoacán'
-          'Morelos'
-          'México'
-          'Nayarit'
-          'Nuevo León'
-          'Oaxaca'
-          'Puebla'
-          'Querétaro'
-          'Quintana Roo'
-          'San Luis Potosi'
-          'Sinaloa'
-          'Sonora'
-          'Tabasco'
-          'Tamaulipas'
-          'Tlaxcala'
-          'Veracruz'
-          'Yucatán'
-          'Zacatecas'
-        ]
-      ]
-
-      $scope.countryOpts = countryList
-      $scope.stePrvOpts  = stateProvList[0]
-      $scope.getStePrvOpts = ->
-        key = $scope.countryOpts.indexOf($scope.newContact.country)
-        newOptions = stateProvList[key]
-        $scope.stePrvOpts = newOptions
+    ($scope, $mdDialog, Contact) ->
 
       $scope.showAdd = (event) ->
+          $mdDialog.show(
+            scope: $scope
+            #preserveScope: true
+            #locals:
+            controller: DialogController
+            templateUrl: 'addContact.html'
+            targetEvent: event).then ((answer) ->
+            $scope.alert = 'You said the information was "' + answer + '".'
+          ), ->
+            $scope.alert = 'Cancelled.'
 
-            $mdDialog.show(
-              controller: DialogController
-              template:  '<md-dialog aria-label="Mango (Fruit)"> 
-
-                          <md-content class="md-padding"> 
-                          <form name="contactsForm" 
-                            ng-submit="contactsForm.$valid && addContact()" novalidate>
-
-                              <div layout layout-sm="column"> 
-                                <md-input-container flex> 
-                                  <label>First Name</label> 
-                                  <input type="text" ng-model="newContact.first_name" 
-                                    ng-minlength="3" ng-minlength="35" required>
-                                </md-input-container> 
-
-                                <md-input-container flex> 
-                                  <label>Last Name</label> 
-                                  <input type="text" ng-model="newContact.last_name" 
-                                    ng-minlength="3" ng-minlength="35" required>
-                                </md-input-container> 
-                              </div> 
-
-                              <md-input-container flex> 
-                                <label>Address</label> 
-                                <input type="text" ng-model="newContact.address">
-                              </md-input-container> 
-
-                              <div layout layout-sm="column"> 
-                                <md-input-container flex> 
-                                  <label>City</label> 
-                                  <input type="text" ng-model="newContact.city">
-                                </md-input-container> 
-
-                                <md-input-container flex> 
-                                  <label>Zip Code</label> 
-                                  <input type="text" ng-pattern="/^(\d{5}-\d{4}|\d{5})$/" 
-                                    ng-model="newContact.zip">
-                                </md-input-container> 
-                              </div> 
-
-                              <div layout layout-sm="column"> 
-                              
-                                <md-select ng-model="newContact.state_province" 
-                                  oi-options="option for option in stePrvOpts" aria-label="State or Province" flex>
-                                  <option value="" disabled selected>State/Province</option>
-                                </md-select>
-
-                                <md-select ng-model="newContact.country" 
-                                  oi-options="option for option in countryOpts" 
-                                  ng-change="getStePrvOpts()" aria-label="Country" flex>
-                                  <option value="" disabled selected>Country</option>
-                                </md-select>
-                              
-                              </div> 
-
-                              <div layout layout-sm="column"> 
-                                <md-input-container flex> 
-                                  <label>Phone</label> 
-                                  <input type="text" ng-pattern="/^\d{10}$/" 
-                                    ng-model="newContact.phone" required>
-                                </md-input-container> 
-
-                                <md-input-container flex> 
-                                  <label>Email</label> 
-                                  <input type="email" ng-model="newContact.email" required>
-                                </md-input-container> 
-                              </div> 
-
-                            </form> 
-                          </md-content> 
-
-                          <div class="md-actions" layout="row"> 
-                            <span flex></span> 
-                            <md-button ng-click="answer(\'not useful\')"> Cancel </md-button>
-                            <input type="submit" ng-disabled="contactsForm.$invalid" class="md-primary" value="Add Contact">
-                          </div>
-
-                          </md-dialog>'
-
-              targetEvent: event).then ((answer) ->
-              $scope.alert = 'You said the information was "' + answer + '".'
-            ), ->
-              $scope.alert = 'You cancelled the dialog.'
 ]
 
   .directive 'userAvatar', ->
@@ -213,8 +28,7 @@ app = angular.module('app.contactsApp')
 
 
 
-DialogController = ($scope, $mdDialog) ->
-
+DialogController = ($scope, $mdDialog, Contact) ->
   $scope.hide = ->
     $mdDialog.hide()
 
@@ -223,3 +37,119 @@ DialogController = ($scope, $mdDialog) ->
 
   $scope.answer = (answer) ->
     $mdDialog.hide answer
+
+  countryList = ['USA', 'Canada', 'Mexico']
+  stateProvList = [
+    [
+      'Alabama'
+      'Alaska'
+      'Arizona'
+      'Arkansas'
+      'California'
+      'Colorado'
+      'Connecticut'
+      'Delaware'
+      'District Of Columbia'
+      'Florida'
+      'Georgia'
+      'Hawaii'
+      'Idaho'
+      'Illinois'
+      'Indiana'
+      'Iowa'
+      'Kansas'
+      'Kentucky'
+      'Louisiana'
+      'Maine'
+      'Maryland'
+      'Massachusetts'
+      'Michigan'
+      'Minnesota'
+      'Mississippi'
+      'Missouri'
+      'Montana'
+      'Nebraska'
+      'Nevada'
+      'New Hampshire'
+      'New Jersey'
+      'New Mexico'
+      'New York'
+      'North Carolina'
+      'North Dakota'
+      'Ohio'
+      'Oklahoma'
+      'Oregon'
+      'Pennsylvania'
+      'Rhode Island'
+      'South Carolina'
+      'South Dakota'
+      'Tennessee'
+      'Texas'
+      'Utah'
+      'Vermont'
+      'Virginia'
+      'Washington'
+      'West Virginia'
+      'Wisconsin'
+      'Wyoming'
+    ]
+    [ 
+      'Alberta'
+      'British Columbia'
+      'Manitoba'
+      'New Brunswick'
+      'Newfoundland'
+      'Northwest Territories'
+      'Nova Scotia'
+      'Nunavut'
+      'Ontario'
+      'Prince Edward Island'
+      'Quebec'
+      'Saskatchewan'
+      'Yukoncan'
+    ]
+    [ 
+      'Aguascalientes'
+      'Baja California'
+      'Baja California Sur'
+      'Campeche'
+      'Chiapas'
+      'Chihuahua'
+      'Coahuila'
+      'Colima'
+      'Distrito Federal'
+      'Durango'
+      'Guanajuato'
+      'Guerrero'
+      'Hidalgo'
+      'Jalisco'
+      'Michoacán'
+      'Morelos'
+      'México'
+      'Nayarit'
+      'Nuevo León'
+      'Oaxaca'
+      'Puebla'
+      'Querétaro'
+      'Quintana Roo'
+      'San Luis Potosi'
+      'Sinaloa'
+      'Sonora'
+      'Tabasco'
+      'Tamaulipas'
+      'Tlaxcala'
+      'Veracruz'
+      'Yucatán'
+      'Zacatecas'
+    ]
+  ]
+
+  $scope.countryOpts = countryList
+  $scope.stePrvOpts  = stateProvList[0]
+
+  $scope.getStePrvOpts = ->
+    key = $scope.countryOpts.indexOf($scope.newContact.country)
+    newOptions = stateProvList[key]
+    $scope.stePrvOpts = newOptions
+
+  debugger

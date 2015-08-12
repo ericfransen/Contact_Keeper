@@ -4,78 +4,73 @@
   <form name="contactsForm" 
     ng-submit="contactsForm.$valid && addContact()" novalidate>
 
-      <div layout layout-sm="column"> 
-        <md-input-container flex> 
-          <label>First Name</label> 
-          <input type="text" ng-model="newContact.first_name" 
-            ng-minlength="3" ng-minlength="35" required>
-        </md-input-container> 
+     <div layout layout-sm="column"> 
+       <md-input-container flex> 
+         <label>First Name</label> 
+         <input type="text" ng-model="newContact.first_name" 
+           ng-minlength="3" ng-minlength="35" required>
+       </md-input-container> 
 
-        <md-input-container flex> 
-          <label>Last Name</label> 
-          <input type="text" ng-model="newContact.last_name" 
-            ng-minlength="3" ng-minlength="35" required>
-        </md-input-container> 
-      </div> 
+       <md-input-container flex> 
+         <label>Last Name</label> 
+         <input type="text" ng-model="newContact.last_name" 
+           ng-minlength="3" ng-minlength="35" required>
+       </md-input-container> 
+     </div> 
 
-      <md-input-container flex> 
-        <label>Address</label> 
-        <input type="text" ng-model="newContact.address">
-      </md-input-container> 
+     <md-input-container flex> 
+       <label>Address</label> 
+       <input type="text" ng-model="newContact.address">
+     </md-input-container> 
 
-      <div layout layout-sm="column"> 
-        <md-input-container flex> 
-          <label>City</label> 
-          <input type="text" ng-model="newContact.city">
-        </md-input-container> 
+     <div layout layout-sm="column"> 
+       <md-input-container flex> 
+         <label>City</label> 
+         <input type="text" ng-model="newContact.city">
+       </md-input-container> 
 
-        <md-input-container flex> 
-          <label>Zip Code</label> 
-          <input type="text" ng-pattern="/^(\d{5}-\d{4}|\d{5})$/" 
-            ng-model="newContact.zip">
-        </md-input-container> 
-      </div> 
+       <md-input-container flex> 
+         <label>Zip Code</label> 
+         <input type="text" ng-pattern="/^(\d{5}-\d{4}|\d{5})$/" 
+           ng-model="newContact.zip">
+       </md-input-container> 
+     </div> 
 
-      <div layout layout-sm="column"> 
-        <md-input-container flex> 
-          <label>State</label> 
-          <select ng-model="newContact.state_province" 
-            ng-options="option for option in stePrvOpts">
-            <option value="" disabled selected>State/Province</option>
-          </select>
-        </md-input-container> 
+     <div layout layout-sm="column"> 
+     
+       <md-select ng-model="newContact.state_province" 
+         oi-options="option for option in $scope.stePrvOpts" aria-label="State or Province" flex>
+         <option value="" disabled selected>State/Province</option>
+       </md-select>
 
-        <md-input-container flex> 
-          <label>Country</label> 
-          <select ng-model="newContact.country" 
-            ng-options="option for option in countryOpts" 
-            ng-change="getStePrvOpts()">
-            <option value="" disabled selected>Country</option>
-          </select>
-        </md-input-container> 
-      </div> 
+       <md-select ng-model="newContact.country" 
+         oi-options="option for option in $scope.countryOpts" 
+         ng-change="getStePrvOpts()" aria-label="Country" flex>
+         <option value="" disabled selected>Country</option>
+       </md-select>
+     
+     </div> 
 
-      <div layout layout-sm="column"> 
-        <md-input-container flex> 
-          <label>Phone</label> 
-          <input type="text" ng-pattern="/^\d{10}$/" 
-            ng-model="newContact.phone" required>
-          <input type="text" ng-model="newContact.city">
-        </md-input-container> 
+     <div layout layout-sm="column"> 
+         <md-input-container flex> 
+           <label>Phone</label> 
+           <input type="text" ng-pattern="/^\d{10}$/" 
+             ng-model="newContact.phone" required>
+         </md-input-container> 
 
-        <md-input-container flex> 
-          <label>Email</label> 
-          <input type="email" ng-model="newContact.email" required>
-        </md-input-container> 
-      </div> 
+         <md-input-container flex> 
+           <label>Email</label> 
+           <input type="email" ng-model="newContact.email" required>
+         </md-input-container> 
+       </div> 
 
-    </form> 
-  </md-content> 
+     </form> 
+    </md-content> 
 
-  <div class="md-actions" layout="row"> 
-    <span flex></span> 
-    <md-button ng-click="answer(\'not useful\')"> Cancel </md-button>
-    <input type="submit" ng-disabled="contactsForm.$invalid" class="md-primary" value="Add Contact">
-  </div>
+    <div class="md-actions" layout="row"> 
+      <span flex></span> 
+      <md-button ng-click="answer(\'not useful\')"> Cancel </md-button>
+      <input type="submit" ng-disabled="contactsForm.$invalid" class="md-primary" value="Add Contact">
+    </div>
 
 </md-dialog>
