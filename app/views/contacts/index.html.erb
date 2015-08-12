@@ -1,44 +1,224 @@
-<h1>Contacts</h1>
+<div ng-app="app.contactsApp" ng-controller="ContactsCtrl">
+  <div ng-controller="uiCtrl">
 
-<div ng-app='app.contactsApp' ng-controller='ContactsCtrl'>
+    <!-- newContact form -->
+    <script type="text/ng-template" id="addContact.html">
+      <md-dialog aria-label="Mango (Fruit)"> 
 
-  <form name="contactsForm" ng-submit="contactsForm.$valid && addContact()" novalidate>
-    <input type="text" placeholder="First Name" ng-model="newContact.first_name" ng-minlength="3" ng-minlength="35" required>
-    <input type="text" placeholder="Last Name" ng-model="newContact.last_name" ng-minlength="3" ng-minlength="35" required>
-    <input type="text" placeholder="Address" ng-model="newContact.address">
-    <input type="text" placeholder="City" ng-model="newContact.city">
+        <md-content class="md-padding"> 
+        <form name="contactsForm" 
+          ng-submit="contactsForm.$valid && addContact()" novalidate> 
 
-    <select ng-model="newContact.state_province" ng-options="option for option in stePrvOpts">
-      <option value="" disabled selected>State/Province</option>
-    </select>
+           <div layout layout-sm="column"> 
+             <md-input-container flex> 
+               <label>First Name</label> 
+               <input type="text" ng-model="newContact.first_name" 
+                 ng-minlength="3" ng-minlength="35" required>
+             </md-input-container> 
 
-    <select ng-model="newContact.country" ng-options="option for option in countryOpts" ng-change="getStePrvOpts()">
-      <option value="" disabled selected>Country</option>
-    </select>
+             <md-input-container flex> 
+               <label>Last Name</label> 
+               <input type="text" ng-model="newContact.last_name" 
+                 ng-minlength="3" ng-minlength="35" required>
+             </md-input-container> 
+           </div> 
 
-    <input type="text" ng-pattern="/^(\d{5}-\d{4}|\d{5})$/" placeholder="Zip" ng-model="newContact.zip">
-    <input type="text" ng-pattern="/^\d{10}$/" placeholder="Phone" ng-model="newContact.phone" required>
-    <input type="email" placeholder="Email" ng-model="newContact.email" required>
+           <md-input-container flex> 
+             <label>Address</label> 
+             <input type="text" ng-model="newContact.address">
+           </md-input-container> 
 
-    <input type="submit" ng-disabled="contactsForm.$invalid" value="Add Contact">
-  </form>
+           <div layout layout-sm="column"> 
+             <md-input-container flex> 
+               <label>City</label> 
+               <input type="text" ng-model="newContact.city">
+             </md-input-container> 
 
-  <hr>
+             <md-input-container flex> 
+               <label>Zip Code</label> 
+               <input type="text" ng-pattern="/^(\d{5}-\d{4}|\d{5})$/" 
+                 ng-model="newContact.zip">
+             </md-input-container> 
+           </div> 
 
-  <ul>
-    <li ng-repeat="contact in contacts">
-      {{ contact.first_name }}
-      {{ contact.last_name }}
-      {{ contact.address }}
-      {{ contact.city }}
-      {{ contact.state_province }}
-      {{ contact.country }}
-      {{ contact.zip }}
-      {{ contact.phone }}
-      {{ contact.email }}
-      <!-- <button ng-click="updateContact(contact)">Update</button> -->
-      <button ng-click="removeContact(contact)">Delete</button>
-    </li>
-  </ul>
+           <div layout layout-sm="column"> 
+           
+             <md-select ng-model="newContact.state_province" 
+               oi-options="option for option in stePrvOpts" aria-label="State or Province" flex>
+               <option value="" disabled selected>State/Province</option>
+             </md-select>
 
+             <md-select ng-model="newContact.country" 
+               oi-options="option for option in countryOpts" 
+               ng-change="getStePrvOpts()" aria-label="Country" flex>
+               <option value="" disabled selected>Country</option>
+             </md-select>
+           
+           </div> 
+
+           <div layout layout-sm="column"> 
+               <md-input-container flex> 
+                 <label>Phone</label> 
+                 <input type="text" ng-pattern="/^\d{10}$/" 
+                   ng-model="newContact.phone" required>
+               </md-input-container> 
+
+               <md-input-container flex> 
+                 <label>Email</label> 
+                 <input type="email" ng-model="newContact.email" required>
+               </md-input-container> 
+             </div> 
+
+           </form> 
+          </md-content> 
+
+          <div class="md-actions" layout="row"> 
+            <span flex></span> 
+            <md-button ng-click="answer('not useful')"> Cancel </md-button>
+            <input type="submit" ng-disabled="contactsForm.$invalid" class="md-primary" value="Add Contact">
+          </div>
+
+      </md-dialog>
+    </script>
+    <!-- end newContact form -->
+
+
+    <div layout="column" class="relative" layout-fill role="main">
+      <md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="showAdd($event)">
+        <ng-md-icon icon="add"></ng-md-icon>
+      </md-button>
+
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <h3>
+            ContactKeeper
+          </h3>
+          <span flex></span>
+        </div>
+
+        <md-tabs md-stretch-tabs class="md-primary" md-selected="data.selectedIndex">
+          <md-tab id="tab1" aria-controls="tab1-content">
+            Latest
+          </md-tab>
+
+          <md-tab id="tab2" aria-controls="tab2-content">
+            Alphabetical
+          </md-tab>
+        </md-tabs>
+
+      </md-toolbar>
+
+
+      <!-- the 2 tabs sections -->
+      <!-- TODO: DRY this up-->
+      <md-content flex md-scroll-y>
+        <ui-view layout="column" layout-fill layout-padding>
+          <div class="inset" hide-sm></div>
+            <ng-switch on="data.selectedIndex" class="tabpanel-container">
+
+              <div role="tabpanel"
+                   id="tab1-content"
+                   aria-labelledby="tab1"
+                   ng-switch-when="0"
+                   md-swipe-left="next()"
+                   md-swipe-right="previous()"
+                   layout="row" layout-align="center center">
+                  <md-card flex-gt-sm="90" flex-gt-md="80">
+                    <md-card-content>
+                    <h2>Ordered by when you met</h2>
+                      <md-list>
+                        <md-item ng-repeat="contact in contacts | filter:search | orderBy: 'created_at':true">
+
+                        <md-button ng-click="isFullContactOpen = !isFullContactOpen">
+                        
+                          <md-item-content layout="row">
+                            <div class="md-tile-left inset" hide-sm>
+                                <user-avatar></user-avatar>
+                            </div>
+                            <div class="md-tile-content">
+                              <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
+                              <p>
+                                {{ contact.phone }}
+                              </p>
+                            </div>
+
+                            <div ng-show="isFullContactOpen" id="full-contact">
+                              <div class="md-tile-content">
+                                <p>
+                                  {{ contact.address }} {{ contact.city }}, {{ contact.state_province }}
+                                </p>
+                                <p>
+                                  {{ contact.zip }} {{ contact.country }}
+                                </p>
+                                <p>
+                                  <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+                                </p>
+                              </div>
+                            </div>
+                            
+                          </md-item-content>
+
+                        
+                        </md-button>
+                        
+
+                          <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
+                          <md-divider hide-gt-sm ng-if="!$last"></md-divider>
+                        </md-item>
+                        <md-divider></md-divider>
+                        <md-item layout class="inset">
+                            <md-button layout layout-align="start center" flex class="md-primary">
+                              More
+                            </md-button>
+                        </md-item>
+                      </md-list>
+                    </md-card-content>
+                  </md-card>
+              </div>
+
+              <div role="tabpanel"
+                   id="tab2-content"
+                   aria-labelledby="tab2"
+                   ng-switch-when="1"
+                   md-swipe-left="next()"
+                   md-swipe-right="previous()"
+                   layout="row" layout-align="center center">
+                  <md-card flex-gt-sm="90" flex-gt-md="80">
+                    <md-card-content>
+                      <h2>Ordered by first name</h2>
+                      <md-list>
+                        <md-item ng-repeat="contact in contacts | filter:search | orderBy:'first_name'">
+                          <md-item-content layout="row">
+                            <div class="md-tile-left inset" hide-sm>
+                                <user-avatar></user-avatar>
+                            </div>
+                            <div class="md-tile-content">
+                              <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
+                              <p>
+                                {{ contact.phone }}
+                              </p>
+                            </div>
+                          </md-item-content>
+                          <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
+                          <md-divider hide-gt-sm ng-if="!$last"></md-divider>
+                        </md-item>
+                        <md-divider></md-divider>
+                        <md-item layout class="inset">
+                            <md-button layout layout-align="start center" flex class="md-primary">
+                              More
+                            </md-button>
+                        </md-item>
+                      </md-list>
+                    </md-card-content>
+                  </md-card>
+              </div>
+
+          </ng-switch>
+
+        </ui-view>
+      </md-content>
+    </div>
+
+  </div>
 </div>
+

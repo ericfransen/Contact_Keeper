@@ -21,5 +21,5 @@
 // require_tree ./contacts-ng-app/filters
 // require_tree ./contacts-ng-app/directives
 // require_tree ./contacts-ng-app/models
-// require_tree ./contacts-ng-app/services
+//= require_tree ./contacts-ng-app/services
 //= require_tree ./contacts-ng-app/controllers
